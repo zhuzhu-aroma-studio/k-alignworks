@@ -38,6 +38,6 @@ pending={nonce:payload.nonce,timer:setTimeout(()=>{unlock();setStatus('尚未取
 document.querySelectorAll('#booking-form input,#booking-form select,#book-submit').forEach(x=>x.disabled=true);$('book-submit').textContent='正在送出…';setStatus('正在送出諮詢申請，請稍候…');try{form.submit();}catch(err){unlock();setStatus('暫時無法送出，請稍後重試。','error');}});
 window.addEventListener('message',event=>{const r=event.data;if(!pending||!/^https:\/\/(?:[a-z0-9-]+-)?script\.googleusercontent\.com$/.test(event.origin)&&event.origin!=='https://script.google.com'||!r||typeof r!=='object'||r.nonce!==pending.nonce)return;
 if(!r.ok||!r.saved||!r.id){unlock();setStatus(typeof r.error==='string'?r.error:'收件尚未確認，請用 LINE 聯繫。','error');$('book-submit').textContent='重新送出申請';$('book-fallback').hidden=false;return;}
-unlock();done=true;$('book-submit').disabled=true;$('book-submit').textContent='諮詢申請已收件';setStatus(r.emailSent?'申請已收件，通知已寄出。大叔會再與你確認時間；目前尚未預訂時段。':'申請已保存，通知尚未確認；可使用 LINE 聯繫確認。');$('book-fallback').hidden=!!r.emailSent;try{sessionStorage.removeItem(KEY);}catch(e){}});
+unlock();done=true;$('book-submit').disabled=true;$('book-submit').textContent='已收到您的需求 ✓';setStatus('已收到您的諮詢需求，感謝您的填寫！請稍候，凱文大叔會依您留下的聯繫方式與方便時段，盡快與您聯繫。諮詢時間將另行確認。');$('book-fallback').hidden=!!r.emailSent;try{sessionStorage.removeItem(KEY);}catch(e){}});
 $('book-copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(build().report);setStatus('需求摘要已複製。');}catch(e){setStatus('此瀏覽器無法自動複製，請選取上方摘要手動複製。','error');}});
 })();</script></body></html>
